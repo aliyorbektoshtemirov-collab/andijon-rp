@@ -1,0 +1,25 @@
+name = "andijon-rp"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+
+# Diqqat: worker nomi "andijon-rp" + sizning Cloudflare akkauntingiz subdomeni "eco-school" bo'lsa,
+# manzil avtomatik wss://andijon-rp.eco-school.workers.dev bo'ladi (o'yin klienti shuni kutyapti).
+# Agar subdomeningiz boshqacha bo'lsa, game/index.html ichidagi SERVER qatorini yangilang.
+
+[[durable_objects.bindings]]
+name = "DISTRICT"
+class_name = "District"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["District"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "andijon-rp-db"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+[vars]
+OWNER_USER = "aliyorbek"
+# OWNER_PASS "secret" sifatida qo'shiladi (bu faylga YOZILMAYDI):
+#   npx wrangler secret put OWNER_PASS

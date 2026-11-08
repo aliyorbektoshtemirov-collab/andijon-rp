@@ -1,0 +1,44 @@
+name: Build APK
+
+# Har bir push/PR'da avtomatik ishga tushadi, va "Actions" tabidan qo'lda ham ("Run workflow") ishga tushirish mumkin.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
+      # android/ papka repoda yo'q (qasddan) — har safar hozirgi Flutter versiyasiga mos
+      # holda avtomatik yaratiladi, shuning uchun eski/moslashmagan Gradle fayllari muammo bo'lmaydi.
+      - name: Android loyihasini generatsiya qilish (agar yo'q bo'lsa)
+        run: |
+          if [ ! -d android ]; then
+            flutter create . --platforms=android --org com.andijonrp --project-name andijon_rp
+          fi
+
+      - name: Paketlarni o'rnatish
+        run: flutter pub get
+
+      - name: APK yig'ish (release, imzosiz)
+        run: flutter build apk --release
+
+      - name: APK'ni yuklash (Actions "Artifacts")
+        uses: actions/upload-artifact@v4
+        with:
+          name: andijon-rp-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
