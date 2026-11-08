@@ -13,8 +13,13 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.14.1
 
 flutter:
   uses-material-design: true
   assets:
     - assets/game/index.html
+
+flutter_launcher_icons:
+  android: true
+  image_path: "assets/icon/icon.png"

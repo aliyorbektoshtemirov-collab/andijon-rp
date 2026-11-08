@@ -33,6 +33,13 @@ jobs:
       - name: Paketlarni o'rnatish
         run: flutter pub get
 
+      - name: Ilova ikonkasini generatsiya qilish
+        run: dart run flutter_launcher_icons
+
+      - name: Ilovani gorizontal (landscape) rejimga qulflash
+        run: |
+          sed -i 's/android:name="\.MainActivity"/android:name=".MainActivity"\n            android:screenOrientation="landscape"/' android/app/src/main/AndroidManifest.xml
+
       - name: APK yig'ish (release, imzosiz)
         run: flutter build apk --release
 
